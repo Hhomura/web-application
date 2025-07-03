@@ -17,9 +17,9 @@ interface props{
 export default ((prop:props) =>{
 
     return (
-        <div className='container_modal'>
+        <div className='fixed bg-black w-full h-full flex justify-center items-center flex-col'>
             <Form handleInputBody={prop.handleBody} handleInputTitle={prop.handleTitle} id={prop.id} body={prop.body} title={prop.title} handleUpdateData={prop.handleUpdate} handleCreateData={prop.handleCreate}/>
-            <button onClick={prop.handleModal}>Fechar Modal</button>
+            <button className='text-white underline my-10 hover:cursor-pointer' onClick={prop.handleModal}>Fechar Modal</button>
         </div>
     )
 })

@@ -87,15 +87,26 @@ export default function Home() {
   }
 
   return (
-    <div>
+
+    <div className="bg-gray-400 flex flex-col">
+
       {context.updateModal && (
         <Modal body={body} title={title} handleBody={handleBody} handleTitle={handleTitle} handleUpdate={updateData} handleModal={closeModal} handleCreate={createData} id={id}/>
       )}
-      <h2>Posts and Posts</h2>
-      <button onClick={createPost}>Criar Post</button>
+
+
+      <h2 className="text-center mt-5 text-4xl text-white">Posts and Posts</h2>
+
+      <div className="flex content-end justify-end p-7">
+        <button className="p-3 rounded-2xl bg-green-500 text-white hover:cursor-pointer transition duration-300 ease-in-out hover:bg-white  hover:text-black " onClick={createPost}>Criar Novo Post</button>
+      </div>
+
       {context.dataApi.map((item: any) => (
-        <Post key={item.id} body={item.body} title={item.title} id={item.id} setTitle={setTitle} setBody={setBody} setId={setId} handleDelete={deleteData} />
+        <div className="flex justify-center flex-col items-center">
+          <Post key={item.id} body={item.body} title={item.title} id={item.id} setTitle={setTitle} setBody={setBody} setId={setId} handleDelete={deleteData} />
+        </div>
       ))}
+
     </div>
   );
 }

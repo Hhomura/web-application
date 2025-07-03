@@ -14,13 +14,18 @@ export default ((props:props) =>{
         <div>
             {props.value? (
                 <>
-                <label htmlFor={props.name}>{props.label}</label>
-                <input className='input' type={props.inp_type} name={props.name} id={props.id} value={props.value} onChange={props.handleInput}/>
+                <div className='flex flex-col'>
+                    <label className='m-1' htmlFor={props.name}>{props.label}</label>
+                    <textarea className='m-1 bg-gray-500 p-2 text-white h-20' name={props.name} id={props.id} value={props.value} onChange={props.handleInput}/>
+                </div>
                 </>
             ):(
                 <>
-                <label htmlFor={props.name}>{props.label}</label>
-                <input className='input' type={props.inp_type} name={props.name} onChange={props.handleInput}/>
+                <div className='flex flex-col'>
+                    <label className='m-1' htmlFor={props.name}>{props.label}</label>
+                    <textarea className='m-1 bg-gray-500 p-2 text-white h-20' name={props.name} onChange={props.handleInput}/>
+                </div>
+                
                 </>
             )}
         </div>
