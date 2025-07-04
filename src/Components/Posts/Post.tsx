@@ -43,7 +43,7 @@ export default ((props:props) =>{
     }
 
     return(
-        <div className='bg-gray-500 m-4 p-3 rounded-2xl flex flex-col justify-around w-2/3 shadow-lg transform transition ease-in-out duration-300' onClick={handleIdentify}>
+        <div className='bg-gray-500 m-4 p-3 rounded-2xl flex flex-col justify-around w-2/3 shadow-xl/20 transform transition ease-in-out duration-300' onClick={handleIdentify}>
             <div className='flex flex-col my-2 '>
                 <h2 className='text-center text-2xl text-white'>{props.title}</h2></div>
                 <p className='my-3 text-center text-white'>{props.body}</p>

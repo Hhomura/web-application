@@ -28,7 +28,7 @@ export default function Home() {
         context.setDataApi(postsWithComments);
       })
       .catch((error) => {
-        console.error('Erro ao buscar posts:', error);
+        alert(`Erro ao buscar posts: ${error.message || error}`);
       });
   }, []);
 
@@ -51,12 +51,17 @@ export default function Home() {
 
   function createPost() {
     context.setUpdateModal(true)
-    console.log(context.dataApi.length + 1)
+    setId(0)
+    //console.log(context.dataApi.length + 1)
   }
 
   function createData(e: any) {
     e.preventDefault()
-    control.createDataApi(title, body, context)
+    if (title == '' || body == ''){
+      alert(`Não é permitido campos vazios na criação do post`);
+    }else{
+      control.createDataApi(title, body, context)
+    }
     context.setUpdateModal(false)
   }
 
@@ -84,7 +89,11 @@ export default function Home() {
 
   function submitComment(e:any){
     e.preventDefault()
-    control.createComent(id, comment, context)
+    if(comment == ''){
+      alert('Adicione algum texto no comentário. Não é permitido vazio')
+    }else{
+      control.createComent(id, comment, context)
+    }
   }
 
   function handleDeleteComment(){
@@ -113,7 +122,7 @@ export default function Home() {
         <button className="p-3 rounded-2xl bg-green-500 text-white hover:cursor-pointer transition duration-300 ease-in-out hover:bg-white  hover:text-black " onClick={createPost}>Criar Novo Post</button>
       </div>
 
-      {context.dataApi.map((item: any) => (
+      {[...context.dataApi].reverse().map((item: any) => (
         <div key={item.id} className="flex justify-center flex-col items-center">
           <Post key={item.id} body={item.body} title={item.title} id={item.id} setTitle={setTitle} setBody={setBody} setId={setId} handleDelete={deleteData} handleComment={handleComment} handleSubmitComment={submitComment} comments={item.comments} setCommentIndex={setCommentIndex} handleDeleteComment={handleDeleteComment} setComment={setComment}/>
         </div>
