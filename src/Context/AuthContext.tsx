@@ -12,9 +12,10 @@ function AuthProvider(prop:props){
 
     //Modal control
     let [updateModal, setUpdateModal] = useState(false)
+    let [updateComment, setUpdateComment] = useState(false)
 
     return (
-        <Authcontext.Provider value ={{status, setStatus, dataApi, setDataApi, updateModal, setUpdateModal}}>
+        <Authcontext.Provider value ={{status, setStatus, dataApi, setDataApi, updateModal, setUpdateModal, updateComment, setUpdateComment}}>
             {prop.children}
         </Authcontext.Provider>
     )

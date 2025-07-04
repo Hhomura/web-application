@@ -1,5 +1,6 @@
 'use client'
 import service from "@/Api/service/ServiceApi";
+import control from "@/Components/Controllers/PostControl";
 import Modal from "@/Components/Modal/Modal";
 import Post from "@/Components/Posts/Post";
 import { Authcontext } from "@/Context/AuthContext";
@@ -14,11 +15,23 @@ export default function Home() {
   let [id, setId] = useState(0)
   let [userId, setUserId] = useState(0)
 
+  let [comment, setComment] = useState('')
+  let [commentIndex, setCommentIndex] = useState(0)
+
   useEffect(() => {
-    service.getAllPost().then((response) => {
-      context.setDataApi(response.data)
-    })
-  }, [])
+    service.getAllPost()
+      .then((response) => {
+        const postsWithComments = response.data.map((post: any) => ({
+          ...post,
+          comments: []
+        }));
+        context.setDataApi(postsWithComments);
+      })
+      .catch((error) => {
+        console.error('Erro ao buscar posts:', error);
+      });
+  }, []);
+
 
   function handleBody(e: any) {
     setBody(e.target.value)
@@ -30,6 +43,7 @@ export default function Home() {
 
   function closeModal() {
     context.setUpdateModal(false)
+    context.setUpdateComment(false)
     setBody('')
     setTitle('')
     setId(0)
@@ -42,71 +56,68 @@ export default function Home() {
 
   function createData(e: any) {
     e.preventDefault()
-    let newId = context.dataApi[context.dataApi.length - 1].id + 1
-    let newUserId = context.dataApi[context.dataApi.length - 1].userId + 1
-    let post = {
-      userId: newUserId,
-      id: newId,
-      title: title,
-      body: body,
-    }
-    context.setDataApi([...context.dataApi, post]);
-    console.log(post)
+    control.createDataApi(title, body, context)
     context.setUpdateModal(false)
   }
 
   function deleteData(id: number) {
-    console.log(id)
-    const updatedData = context.dataApi.filter((item: any) => item.id !== id);
-    context.setDataApi(updatedData)
+    control.deleteDataApi(id, context)
   }
 
   function updateData(e: any) {
     e.preventDefault();
-    console.log(typeof (context.dataApi))
-    const updateData = context.dataApi.map((item: any) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          title: title,
-          body: body,
-        };
-      }
-      return item
-    })
-    context.setDataApi(updateData)
+    control.updateDataApi(id, title, body, context)
     context.setUpdateModal(false)
     eraseObj()
   }
 
-  function eraseObj(){
+  function eraseObj() {
     setBody('')
     setId(0)
     setTitle('')
     setUserId(0)
   }
 
+  function handleComment(e:any){
+    setComment(e.target.value)
+  }
+
+  function submitComment(e:any){
+    e.preventDefault()
+    control.createComent(id, comment, context)
+  }
+
+  function handleDeleteComment(){
+    control.deleteComment(id, commentIndex, context)
+  }
+
+  function handleUpdateComment(e:any){
+    e.preventDefault()
+    control.updateComment(id, commentIndex, comment, context)
+    context.setUpdateModal(false)
+    context.setUpdateComment(false)
+
+  }
+
   return (
 
-    <div className="bg-gray-400 flex flex-col">
+    <div className="bg-white flex flex-col">
 
       {context.updateModal && (
-        <Modal body={body} title={title} handleBody={handleBody} handleTitle={handleTitle} handleUpdate={updateData} handleModal={closeModal} handleCreate={createData} id={id}/>
+        <Modal body={body} title={title} handleBody={handleBody} handleTitle={handleTitle} handleUpdate={updateData} handleModal={closeModal} handleCreate={createData} id={id}comment={comment} handleComment={handleComment} handleUpdateComment={handleUpdateComment} indexComment={commentIndex}/>
       )}
 
-
-      <h2 className="text-center mt-5 text-4xl text-white">Posts and Posts</h2>
+      <h2 className="bg-blue-500 p-4 shadow-xl/30 rounded-sm m-auto text-center mt-10 text-5xl text-white hover:cursor-pointer transform hover:scale-75 transition duration-300">Social Tips</h2>
 
       <div className="flex content-end justify-end p-7">
         <button className="p-3 rounded-2xl bg-green-500 text-white hover:cursor-pointer transition duration-300 ease-in-out hover:bg-white  hover:text-black " onClick={createPost}>Criar Novo Post</button>
       </div>
 
       {context.dataApi.map((item: any) => (
-        <div className="flex justify-center flex-col items-center">
-          <Post key={item.id} body={item.body} title={item.title} id={item.id} setTitle={setTitle} setBody={setBody} setId={setId} handleDelete={deleteData} />
+        <div key={item.id} className="flex justify-center flex-col items-center">
+          <Post key={item.id} body={item.body} title={item.title} id={item.id} setTitle={setTitle} setBody={setBody} setId={setId} handleDelete={deleteData} handleComment={handleComment} handleSubmitComment={submitComment} comments={item.comments} setCommentIndex={setCommentIndex} handleDeleteComment={handleDeleteComment} setComment={setComment}/>
         </div>
       ))}
-
     </div>
   );
 }
