@@ -22,7 +22,6 @@ interface props{
     comments?:[]
     comment:string
     setCommentIndex?:any
-    handleDeleteComment?:any
 }
 
 export default ((props:props) =>{
@@ -57,13 +56,13 @@ export default ((props:props) =>{
 
                 <div>
                     <form action="" className='flex' onSubmit={props.handleSubmitComment}>
-                        <input className='bg-white p-2 mx-2 w-xl flex-1/2 rounded-sm' type="text" onChange={props.handleComment} value={props.comment}/>
+                        <input className='bg-white p-2 mx-2 w-xl flex-1/2 rounded-sm' type="text" onChange={props.handleComment}/>
                         <button className='hover:cursor-pointer transform hover:scale-110 transition duration-200' type='submit'><Image alt='alt' src={send} height={50} width={50}/></button>
                     </form>
                 </div>
 
                 {props.comments?.map((item, index) => (
-                    <Coment id={index} coment={item} key={index} setCommentIndex={props.setCommentIndex} handleDeleteComment={props.handleDeleteComment} setComment={props.setComment}/>
+                    <Coment idPost={props.id} id={index} coment={item} key={index} setCommentIndex={props.setCommentIndex} setComment={props.setComment}/>
                 ))}
         
             </div>

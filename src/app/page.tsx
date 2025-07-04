@@ -97,10 +97,6 @@ export default function Home() {
     }
   }
 
-  function handleDeleteComment(){
-    control.deleteComment(id, commentIndex, context)
-  }
-
   function handleUpdateComment(e:any){
     e.preventDefault()
     control.updateComment(id, commentIndex, comment, context)
@@ -125,7 +121,7 @@ export default function Home() {
 
       {[...context.dataApi].reverse().map((item: any) => (
         <div key={item.id} className="flex justify-center flex-col items-center">
-          <Post key={item.id} body={item.body} title={item.title} id={item.id} setTitle={setTitle} setBody={setBody} setId={setId} handleDelete={deleteData} handleComment={handleComment} handleSubmitComment={submitComment} comments={item.comments} setCommentIndex={setCommentIndex} handleDeleteComment={handleDeleteComment} setComment={setComment} comment={comment}/>
+          <Post key={item.id} body={item.body} title={item.title} id={item.id} setTitle={setTitle} setBody={setBody} setId={setId} handleDelete={deleteData} handleComment={handleComment} handleSubmitComment={submitComment} comments={item.comments} setCommentIndex={setCommentIndex} setComment={setComment} comment={comment}/>
         </div>
       ))}
     </div>
