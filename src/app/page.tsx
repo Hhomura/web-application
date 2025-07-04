@@ -93,6 +93,7 @@ export default function Home() {
       alert('Adicione algum texto no comentário. Não é permitido vazio')
     }else{
       control.createComent(id, comment, context)
+      setComment('')
     }
   }
 
@@ -105,7 +106,7 @@ export default function Home() {
     control.updateComment(id, commentIndex, comment, context)
     context.setUpdateModal(false)
     context.setUpdateComment(false)
-
+    setComment('')
   }
 
   return (
@@ -124,7 +125,7 @@ export default function Home() {
 
       {[...context.dataApi].reverse().map((item: any) => (
         <div key={item.id} className="flex justify-center flex-col items-center">
-          <Post key={item.id} body={item.body} title={item.title} id={item.id} setTitle={setTitle} setBody={setBody} setId={setId} handleDelete={deleteData} handleComment={handleComment} handleSubmitComment={submitComment} comments={item.comments} setCommentIndex={setCommentIndex} handleDeleteComment={handleDeleteComment} setComment={setComment}/>
+          <Post key={item.id} body={item.body} title={item.title} id={item.id} setTitle={setTitle} setBody={setBody} setId={setId} handleDelete={deleteData} handleComment={handleComment} handleSubmitComment={submitComment} comments={item.comments} setCommentIndex={setCommentIndex} handleDeleteComment={handleDeleteComment} setComment={setComment} comment={comment}/>
         </div>
       ))}
     </div>

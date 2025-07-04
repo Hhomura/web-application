@@ -20,6 +20,7 @@ interface props{
     handleComment?:any
     handleSubmitComment?:any
     comments?:[]
+    comment:string
     setCommentIndex?:any
     handleDeleteComment?:any
 }
@@ -56,7 +57,7 @@ export default ((props:props) =>{
 
                 <div>
                     <form action="" className='flex' onSubmit={props.handleSubmitComment}>
-                        <input className='bg-white p-2 mx-2 w-xl flex-1/2 rounded-sm' type="text" onChange={props.handleComment} />
+                        <input className='bg-white p-2 mx-2 w-xl flex-1/2 rounded-sm' type="text" onChange={props.handleComment} value={props.comment}/>
                         <button className='hover:cursor-pointer transform hover:scale-110 transition duration-200' type='submit'><Image alt='alt' src={send} height={50} width={50}/></button>
                     </form>
                 </div>
